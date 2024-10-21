@@ -1,0 +1,57 @@
+<!-- copy code in html file -->
+<!DOCTYPE html>
+<html lang="en" ng-app="cartApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart Application using AngularJS</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="CartController">
+  <h1>Cart</h1>
+  <ul>
+    <li ng-repeat="item in cartItems">
+      {{item.name}} - ${{item.price}} x {{item.quantity}}
+      <button ng-click="removeItem($index)">Remove</button>
+    </li>
+  </ul>
+  <p>Total: ${{getTotal()}}</p>
+
+  <input type="text" ng-model="itemName" placeholder="Item name">
+  <input type="number" ng-model="itemPrice" placeholder="Price">
+  <input type="number" ng-model="itemQuantity" placeholder="Quantity">
+  <button ng-click="addItem()">Add to Cart</button>
+
+  <script>
+    angular.module('cartApp', [])
+    .controller('CartController', function($scope) {
+      $scope.cartItems = [
+        {name: 'Apple', price: 1.2, quantity: 2},
+        {name: 'Banana', price: 0.8, quantity: 3}
+      ];
+
+      $scope.addItem = function() {
+        $scope.cartItems.push({
+          name: $scope.itemName,
+          price: $scope.itemPrice,
+          quantity: $scope.itemQuantity
+        });
+        $scope.itemName = $scope.itemPrice = $scope.itemQuantity = '';
+      };
+
+      $scope.removeItem = function(index) {
+        $scope.cartItems.splice(index, 1);
+      };
+
+      $scope.getTotal = function() {
+        let total = 0;
+        $scope.cartItems.forEach(item => {
+          total += item.price * item.quantity;
+        });
+        return total;
+      };
+    });
+  </script>
+</body>
+</html>
+

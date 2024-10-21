@@ -1,0 +1,53 @@
+<!-- copy code in html file -->
+<!DOCTYPE html>
+<html lang="en" ng-app="formApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AngularJS Form App</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="FormController">
+  <form name="userForm" ng-submit="submitForm()">
+    <label>Name:</label>
+    <input type="text" ng-model="user.name" ng-change="nameChanged()" ng-blur="onBlur()" ng-focus="onFocus()" required>
+    <p ng-show="userForm.name.$invalid && !userForm.name.$pristine">Name is required.</p>
+
+    <label>Email:</label>
+    <input type="email" ng-model="user.email" required>
+    <p ng-show="userForm.email.$invalid && !userForm.email.$pristine">Enter a valid email.</p>
+
+    <button type="submit" ng-click="onSubmitClick()" ng-disabled="userForm.$invalid">Submit</button>
+  </form>
+
+  <script>
+    angular.module('formApp', [])
+    .controller('FormController', function($scope) {
+      $scope.user = {};
+
+      $scope.submitForm = function() {
+        if ($scope.userForm.$valid) {
+          alert('Form Submitted!');
+        }
+      };
+
+      $scope.nameChanged = function() {
+        console.log('Name Changed');
+      };
+
+      $scope.onBlur = function() {
+        console.log('Input Lost Focus');
+      };
+
+      $scope.onFocus = function() {
+        console.log('Input Gained Focus');
+      };
+
+      $scope.onSubmitClick = function() {
+        console.log('Submit Button Clicked');
+      };
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,40 @@
+<!-- copy code in html file -->
+<!DOCTYPE html>
+<html lang="en" ng-app="translateApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AngularJS Translate App</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.18.1/angular-translate.min.js"></script>
+</head>
+<body ng-controller="TranslateController">
+  <h1>{{ 'TITLE' | translate }}</h1>
+  <p>{{ 'DESCRIPTION' | translate }}</p>
+
+  <select ng-model="selectedLanguage" ng-change="changeLanguage(selectedLanguage)">
+    <option value="en">English</option>
+    <option value="es">Spanish</option>
+  </select>
+
+  <script>
+    angular.module('translateApp', ['pascalprecht.translate'])
+    .config(function($translateProvider) {
+      $translateProvider.translations('en', {
+        TITLE: 'Welcome',
+        DESCRIPTION: 'This is a translation app'
+      });
+      $translateProvider.translations('es', {
+        TITLE: 'Bienvenido',
+        DESCRIPTION: 'Esta es una aplicación de traducción'
+      });
+      $translateProvider.preferredLanguage('en');
+    })
+    .controller('TranslateController', function($scope, $translate) {
+      $scope.changeLanguage = function(langKey) {
+        $translate.use(langKey);
+      };
+    });
+  </script>
+</body>
+</html>
